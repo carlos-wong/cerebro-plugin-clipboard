@@ -6,7 +6,7 @@ const deleteIcon = require('./DeleteIcon.png');
 const noItemsIcon = require('./NoItemsIcon.png');
 
 
-const MAX_CLIPBOARD_ITEM_COUNT = 20;
+const MAX_CLIPBOARD_ITEM_COUNT = 36;
 
 const clipboardStorage = [];
 
@@ -73,7 +73,7 @@ function generateTextDisplay({ type, value, index }) {
     icon: copyIcon,
     title: `${index}. ${value}`,
     onSelect: () => {
-      clipboardStorage.splice(index - 1, 1);
+      // clipboardStorage.splice(index - 1, 1);
       clipboard.writeText(value);
       new Notification('Text copied to clipboard', {
         body: value
@@ -92,7 +92,7 @@ function generateImageDisplay({ type, value, index }) {
     icon: copyIcon,
     title: `${index}. Image`,
     onSelect: () => {
-      clipboardStorage.splice(index - 1, 1);
+      // clipboardStorage.splice(index - 1, 1);
       clipboard.writeImage(value);
       new Notification('Image copied to clipboard');
     },
@@ -118,7 +118,6 @@ function readClipboardAndSaveNewValues() {
   if (pauseWatching) return;
   let clipboardImageValue;
   const clipboardTextValue = clipboard.readText();
-
   const clipboardAvailableFormats = clipboard.availableFormats();
   const textIsImage = imageDataUrlPreambleRegex.test(clipboardTextValue);
   let isImage = imageContentTypes.reduce((prevResult, imageContentType) => {
@@ -143,7 +142,8 @@ function readClipboardAndSaveNewValues() {
   };
 
   const lastValue = clipboardStorage[0];
-  if (!lastValue || !valuesAreEqual(lastValue, clipboardValue)) {
+  if (!lastValue || !valuesAreEqual(lastValue, clipboardValue)){
+    // console.log("Try to unshift clipboard value:",clipboardValue);
     clipboardStorage.unshift(clipboardValue);
     clipboardStorage.length = MAX_CLIPBOARD_ITEM_COUNT;
   }
