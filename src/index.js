@@ -120,7 +120,7 @@ function generateImageDisplay({ type, value, index }) {
 const imageDataUrlPreambleRegex = /^data:image\/.+;base64,.+/;
 const imageContentTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
 function startWatchingClipboard() {
-  setInterval(readClipboardAndSaveNewValues, 1000);
+  setInterval(readClipboardAndSaveNewValues, 360);
 }
 
 function readClipboardAndSaveNewValues() {
