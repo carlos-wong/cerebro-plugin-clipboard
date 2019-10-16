@@ -13,6 +13,13 @@ const clipboardStorage = [];
 let pauseWatching = false;
 startWatchingClipboard();
 
+Array.prototype.move = function(from,to){
+  if (from === to) {
+    return this;
+  }
+  this.splice(to,0,this.splice(from,1)[0]);
+  return this;
+};
 
 const clearDisplayObj = {
   icon: deleteIcon,
@@ -73,11 +80,12 @@ function generateTextDisplay({ type, value, index }) {
     icon: copyIcon,
     title: `${index}. ${value}`,
     onSelect: () => {
+      clipboardStorage.move(index-1,0);
       // clipboardStorage.splice(index - 1, 1);
       clipboard.writeText(value);
-      new Notification('Text copied to clipboard', {
-        body: value
-      });
+      // new Notification('Text copied to clipboard', {
+      //   body: value
+      // });
     },
     getPreview: () => (
       <div style={{ whiteSpace: 'pre-wrap' }}>
@@ -92,6 +100,7 @@ function generateImageDisplay({ type, value, index }) {
     icon: copyIcon,
     title: `${index}. Image`,
     onSelect: () => {
+      clipboardStorage.move(index-1,0);
       // clipboardStorage.splice(index - 1, 1);
       clipboard.writeImage(value);
       new Notification('Image copied to clipboard');
